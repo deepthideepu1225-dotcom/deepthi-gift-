@@ -2,13 +2,16 @@
 <html>
 <head>
   <title>For My Bangaram 💖</title>
+
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
     body {
       font-family: Arial;
       text-align: center;
       background: linear-gradient(to right, #ff9a9e, #fad0c4);
       padding: 40px;
-      overflow:hidden;
     }
 
     .box { display:none; }
@@ -35,27 +38,33 @@
       margin-top: 20px;
     }
 
-    /* simple animation */
-    .fade {
-      animation: fade 0.6s ease;
+    /* Bounce animation */
+    .bounce {
+      animation: bounce 1s infinite;
     }
 
-    @keyframes fade {
-      from {opacity:0; transform:scale(0.9);}
-      to {opacity:1; transform:scale(1);}
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
     }
+
+    /* Pop text */
+    .pop {
+      animation: pop 0.6s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.5); opacity:0; }
+      to { transform: scale(1); opacity:1; }
+    }
+
   </style>
 </head>
 
 <body>
 
-<!-- 🎵 MUSIC -->
-<audio autoplay loop>
-  <source src="https://www2.cs.uic.edu/~i101/SoundFiles/HappyBirthday.mid">
-</audio>
-
 <!-- PASSCODE -->
-<div id="p1" class="active fade">
+<div id="p1" class="active">
   <h2>Enter Passcode 💖</h2>
   <input type="password" id="pass">
   <br>
@@ -63,35 +72,33 @@
 </div>
 
 <!-- GIFT -->
-<div id="p2" class="box fade">
-  <h2>🎁 Tap to Open Gift</h2>
+<div id="p2" class="box">
+  <h2 class="pop">🎁 Tap to Open Gift</h2>
   <button onclick="next(3)">Open 🎁</button>
 </div>
 
-<!-- BIG CAKE -->
-<div id="p3" class="box fade">
+<!-- CAKE -->
+<div id="p3" class="box">
   <h2>🎂 Blow the Candle</h2>
-  <img src="https://i.imgur.com/6RLQdQG.png">
+  <img class="bounce" src="https://i.imgur.com/6RLQdQG.png">
   <br>
   <button onclick="blow()">Blow 🎂</button>
 </div>
 
-<!-- HAPPY BDAY TEXT -->
-<div id="p4" class="box fade">
-  <h1>🎉 Happy Birthday bangarammm ❤️❤️❤️❤️</h1>
+<!-- BDAY -->
+<div id="p4" class="box">
+  <h1 class="pop">🎉 Happy Birthday bangarammm ❤️❤️❤️❤️</h1>
   <p>Many more happy returns of the day 🎂</p>
-  <button onclick="next(5)">Open Letter 💌</button>
 </div>
 
 <!-- LETTER OPEN -->
-<div id="p5" class="box fade">
-  <h2>💌 Letter</h2>
-  <p>Tap below to open</p>
+<div id="p5" class="box">
+  <h2>💌 Open Letter</h2>
   <button onclick="next(6)">Open 💌</button>
 </div>
 
 <!-- CHOOSE -->
-<div id="p6" class="box fade">
+<div id="p6" class="box">
   <h2>🎁 Choose One Gift</h2>
   <button onclick="next(7)">Gift 1</button>
   <button onclick="next(8)">Gift 2</button>
@@ -99,8 +106,7 @@
 </div>
 
 <!-- LETTER 1 -->
-<div id="p7" class="box fade">
-  <h2>💝 Gift 1</h2>
+<div id="p7" class="box">
   <p>
   Many more happy returns of the day bangaram ❤️<br><br>
   Hope you lead your life successfully with your loved ones<br>
@@ -109,34 +115,25 @@
 </div>
 
 <!-- LETTER 2 -->
-<div id="p8" class="box fade">
-  <h2>💝 Gift 2</h2>
+<div id="p8" class="box">
   <p>
   I never knew a spontaneous decision could change my life…<br>
-  life lo kotha kotha experiences ichav… what not everything…<br>
-  kothaga vundhi life… podhunne lechedhi nee thought tho ne<br>
-  padukonedhi nee thought tho ne…<br><br>
-  I will never leave you no matter what… unless and until you do…<br>
-  appud appudu edipistav godava padthav anuko…<br>
-  ah chinna chinna godavalu mind lo pettukoni nuvv chupinchina prema marchipolenu ga ❤️<br><br>
-  Love you bangaram ❤️<br>
-  Many more happy returns of the day 🎂
+  life lo kotha kotha experiences ichav…<br><br>
+  Love you bangaram ❤️
   </p>
 </div>
 
 <!-- PROPOSAL -->
-<div id="p9" class="box fade">
-  <h2>💍 One Question</h2>
-  <p>Will you marry me? 💖</p>
+<div id="p9" class="box">
+  <h2>💍 Will you marry me?</h2>
   <input type="text" id="ans" placeholder="Type Yes">
   <br>
   <button onclick="final()">Submit</button>
 </div>
 
 <!-- FINAL -->
-<div id="p10" class="box fade">
+<div id="p10" class="box">
   <h1>🎉 Hurrayyy 🎉</h1>
-  <p>I love you bangaram ❤️</p>
 </div>
 
 <script>
@@ -150,14 +147,16 @@ function next(n){show("p"+n)}
 
 function blow(){
   show("p4");
+  confetti(); // 🎉 confetti blast
 }
 
 function final(){
   let a=document.getElementById("ans").value.toLowerCase();
   if(a==="yes"){
     show("p10");
+    confetti();
   } else {
-    alert("Only Yes allowed 😄");
+    alert("Only Yes allowed");
   }
 }
 
